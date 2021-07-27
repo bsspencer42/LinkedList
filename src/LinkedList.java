@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 public class LinkedList<T> implements List<T>{
     // Instance variables
     private Node<T> head;
@@ -80,7 +82,7 @@ public class LinkedList<T> implements List<T>{
     public T removeAtIndex(int index) {
         // Error handling - Invalid input
         if (index > size - 1 || index < 0){
-            throw new IllegalArgumentException("Your index is out of the list bounds");
+            throw new IllegalArgumentException("Your index is out of bounds");
         }
         // Removed node data
         T removedData = this.getAtIndex(index);
@@ -119,7 +121,25 @@ public class LinkedList<T> implements List<T>{
 
     @Override
     public T remove(T data) {
-        return null;
+        // Error handling - Null data
+        if (data == null){
+            throw new IllegalArgumentException("You cannot remove null data from the list");
+        }
+
+        // For loop to find data
+        Node<T> searchNode = head;
+        T currentData;
+        for (int i = 0; i < size;i++){
+            currentData = searchNode.getData();
+            if (currentData.equals(data)){
+                this.removeAtIndex(i);
+                return currentData;
+            }
+            searchNode = searchNode.getNext();
+        }
+
+        // Else throw NoSuchElementException
+        throw new NoSuchElementException("The data is not present in the list.");
     }
 
     @Override
@@ -155,7 +175,7 @@ public class LinkedList<T> implements List<T>{
         }
         System.out.println("Tail: " + x.tail.getData());
         System.out.println("Head: " + x.head.getData());
-        System.out.println("Remove index 0: " + x.removeAtIndex(0));
+        System.out.println("Remove index 0: " + x.remove("T3"));
 
         currentNode = x.head;
         index = 0;
