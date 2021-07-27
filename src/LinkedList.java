@@ -58,18 +58,63 @@ public class LinkedList<T> implements List<T>{
         // Increment size
         size += 1;
         return;
-
-
     }
 
     @Override
     public T getAtIndex(int index) {
-        return null;
+        // Error handling - Invalid input
+        if (index > size - 1 || index < 0){
+            throw new IllegalArgumentException("Your index is out of the list bounds");
+        }
+        // Loop to find data @ index
+        int currentIndex = 0;              //
+        Node<T> currentNode = head; // Pointer
+        while (currentIndex < index){
+            currentNode = currentNode.getNext();
+            currentIndex += 1;
+        }
+        return currentNode.getData();
     }
 
     @Override
     public T removeAtIndex(int index) {
-        return null;
+        // Error handling - Invalid input
+        if (index > size - 1 || index < 0){
+            throw new IllegalArgumentException("Your index is out of the list bounds");
+        }
+        // Removed node data
+        T removedData = this.getAtIndex(index);
+
+        // Pointer to previous node
+        Node<T> previousNode = head;  // Pointer
+        int currentIndex = 0;
+        for (int i = 0; i < index - 1;i++){
+            previousNode = previousNode.getNext();
+            currentIndex += 1;
+        }
+
+        // Single node edge case
+        if (size == 1){
+            head = null;
+            tail = null;
+        }
+
+        // Head edge case
+        else if (index == 0){
+            head = head.getNext();
+        }
+
+        // Tail edge case
+        else if (index == size-1){
+            previousNode.setNext(null);
+        }
+
+        // Normal case
+        else {
+            previousNode.setNext(previousNode.getNext().getNext());
+        }
+        size -= 1;
+        return removedData;
     }
 
     @Override
@@ -94,20 +139,30 @@ public class LinkedList<T> implements List<T>{
 
     public static void main(String[] args) {
         LinkedList<String> x = new LinkedList<>();
-        x.addAtIndex("Test",0);
-        x.addAtIndex("Test2",1);
-        x.addAtIndex("Middle",2);
-        x.addAtIndex("Middle2",3);
-        x.addAtIndex("End",4);
-        x.addAtIndex("Index1",1);
-        x.addAtIndex("Index0",0);
+        x.addAtIndex("T0",0);
+        x.addAtIndex("T1",1);
+        x.addAtIndex("T2",2);
+        x.addAtIndex("T3",3);
+        x.addAtIndex("T4",4);
+        x.addAtIndex("T5",5);
 
         Node<String> currentNode = x.head;
+        int index = 0;
         while (currentNode != null){
-            System.out.println(currentNode.getData());
+            System.out.println("Index " + index + " : " + currentNode.getData());
             currentNode = currentNode.getNext();
+            index += 1;
         }
         System.out.println("Tail: " + x.tail.getData());
         System.out.println("Head: " + x.head.getData());
+        System.out.println("Remove index 0: " + x.removeAtIndex(0));
+
+        currentNode = x.head;
+        index = 0;
+        while (currentNode != null){
+            System.out.println("Index " + index + " : " + currentNode.getData());
+            currentNode = currentNode.getNext();
+            index += 1;
+        }
     }
 }
