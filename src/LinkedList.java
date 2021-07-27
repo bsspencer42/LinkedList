@@ -144,17 +144,22 @@ public class LinkedList<T> implements List<T>{
 
     @Override
     public void clear() {
-
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     @Override
     public boolean isEmpty() {
+        if (size == 0){
+            return true;
+        }
         return false;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     public static void main(String[] args) {
