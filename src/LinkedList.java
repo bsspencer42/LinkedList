@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.NoSuchElementException;
 
 public class LinkedList<T> implements List<T>{
@@ -162,32 +164,52 @@ public class LinkedList<T> implements List<T>{
         return size;
     }
 
+    // Remove duplicates method - Experimental
+    public void removeDups(){
+        removeDups(head);
+    }
+    private void removeDups(Node<T> curVal){
+        if (curVal.getNext() == null)
+            return;
+        if (curVal.getData() == curVal.getNext().getData()){
+            curVal.setNext(curVal.getNext().getNext());
+            removeDups(curVal);
+        }
+        else {
+            removeDups(curVal.getNext());
+        }
+    }
     public static void main(String[] args) {
         LinkedList<String> x = new LinkedList<>();
-        x.addAtIndex("T0",0);
-        x.addAtIndex("T1",1);
-        x.addAtIndex("T2",2);
-        x.addAtIndex("T3",3);
-        x.addAtIndex("T4",4);
-        x.addAtIndex("T5",5);
+        x.addAtIndex("0",0);
+        x.addAtIndex("2",1);
+        x.addAtIndex("2",2);
+        x.addAtIndex("3",3);
+        x.addAtIndex("3",4);
+        x.addAtIndex("4",5);
 
         Node<String> currentNode = x.head;
         int index = 0;
+        String myData = "";
         while (currentNode != null){
-            System.out.println("Index " + index + " : " + currentNode.getData());
+            myData += currentNode.getData() + " -->  ";
             currentNode = currentNode.getNext();
             index += 1;
         }
-        System.out.println("Tail: " + x.tail.getData());
-        System.out.println("Head: " + x.head.getData());
-        System.out.println("Remove index 0: " + x.remove("T3"));
+        System.out.println(myData);
+
+        // Recursive remove duplicates
+        System.out.println("Duplicates removed.");
+        x.removeDups();
 
         currentNode = x.head;
         index = 0;
+        myData = "";
         while (currentNode != null){
-            System.out.println("Index " + index + " : " + currentNode.getData());
+            myData += currentNode.getData() + " -->  ";
             currentNode = currentNode.getNext();
             index += 1;
         }
+        System.out.println(myData);
     }
 }
